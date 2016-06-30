@@ -1,0 +1,19 @@
+{
+  "name": "02_nodejs_modulos",
+  "version": "1.0.0",
+  "main": "ejercicio_02.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "glob": "^7.0.5",
+    "log": "^1.4.0",
+    "require": "^2.4.20",
+    "requirejs": "^2.2.0"
+  },
+  "devDependencies": {},
+  "description": ""
+}
