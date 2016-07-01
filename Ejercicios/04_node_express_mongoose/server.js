@@ -44,20 +44,8 @@ app.post('/registrarUsuario', function(req, res) {
     registerUsuario(req,res);
 });
 
-app.get('/*', function(req, res) {
-    sendMessage("GET invalido", res, STATUS_ERROR);
-});
-
-app.post('/*', function(req, res) {
-    sendMessage("POST invalido", res, STATUS_ERROR);
-});
-
-app.delete('/*', function(req, res) {
-    sendMessage("DELETE invalido", res, STATUS_ERROR);
-});
-
-app.patch('/*', function(req, res) {
-    sendMessage("PATCH invalido", res, STATUS_ERROR);
+app.all('/*', function(req, res) {
+    sendMessage("Ruta invalida", res, STATUS_ERROR);
 });
 
 http.createServer(app).listen(8080);

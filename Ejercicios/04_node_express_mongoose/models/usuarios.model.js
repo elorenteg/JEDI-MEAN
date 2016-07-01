@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var log = require('winston');
 var Schema = mongoose.Schema;
 
 /**
@@ -9,7 +10,7 @@ module.exports = function() {
     // Esquema que seguirán los objetos de la colección tasks
     var usuarioSchema = new Schema({
         nombre: {type: String, required: true},
-        lista_de_la_compra: [{id_Producto: String, cantidad: Number}]
+        lista_de_la_compra: [{idProducto: String, cantidad: Number}]
     });
 
     mongoose.model('Usuario', usuarioSchema, 'usuario');
