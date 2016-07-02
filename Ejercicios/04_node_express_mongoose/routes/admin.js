@@ -6,6 +6,7 @@ module.exports = router;
 
 var Producto = require('mongoose').model('Producto');
 var Usuario = require('mongoose').model('Usuario');
+var Descuento = require('mongoose').model('Descuento');
 
 router.get('/listaUsuarios', function(req, res) {
     getAllUsuarios(res);
@@ -21,6 +22,10 @@ router.delete('/borrarProducto/:id_prod', function(req, res) {
 
 router.patch('/actualizarProducto/:id_prod', function(req, res) {
     updateProducto(req,res);
+});
+
+router.post('/anadirDescuento/', function(req, res) {
+    insertDescuento(req,res);
 });
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -71,5 +76,15 @@ function updateProducto(req, res) {
     Producto.findByIdAndUpdate(info, prod_data, function(error, result) {
         if(!error) sendMessage("Producto actualizado correctamente", res, STATUS_OK);
         else sendMessage("Error al actualizar el producto", res, STATUS_ERROR);
+    })
+}
+
+function insertDescuento(req, res) {
+    var desc_data = req.body;
+    var new_desc = new Descuento(desc_data);
+    
+    new_desc.save(function(error, result) {
+        if(!error) jsonMessage("Descuento añadido", result, res, STATUS_OK);
+        else sendMessage("Error al añadir el descuento", res, STATUS_ERROR);
     })
 }

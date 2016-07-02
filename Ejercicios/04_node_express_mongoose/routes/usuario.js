@@ -7,12 +7,17 @@ module.exports = router;
 
 var Producto = require('mongoose').model('Producto');
 var Usuario = require('mongoose').model('Usuario');
+var Descuento = require('mongoose').model('Descuento');
 
 router.get('/:id_user/info', function(req, res) {
     getUsuario(req,res);
 });
 
 router.post('/:id_user/compra/:id_prod', function(req, res) {
+    buyProducto(req,res);
+});
+
+router.post('/:id_user/compra/:id_prod/descuento/:id_desc', function(req, res) {
     buyProducto(req,res);
 });
 
@@ -43,28 +48,26 @@ function getUsuario(req, res) {
 function buyProducto(req, res) {
     var info_user = req.params.id_user;
     var info_prod = req.params.id_prod;
+    var info_desc = req.params.id_desc;
     
     Producto.findById(info_prod, function(error, result) {
         if (!error) {
-            if (result.stock !== 0) {
-                updateStock(info_user,info_prod,result);
-                sendMessage("Compra realizada correctamente", res, STATUS_ERROR);
-            }
+            if (result.stock !== 0) updateStockAndBuy(info_user,info_prod,result,info_desc,res);
             else sendMessage("El producto no tiene stock", res, STATUS_ERROR);
         }
         else sendMessage("No existe ningun producto con ese _id", res, STATUS_ERROR);
-    })
-}
-
-function updateStock(info_user, info_prod, result) {
-    var prod_data = {stock: (result.stock - 1)};
-    
-    Producto.findByIdAndUpdate(info_prod, prod_data, function(error, result) {
-                updateCompra(info_user,info_prod);
     });
 }
 
-function updateCompra(info_user, info_prod) {
+function updateStockAndBuy(info_user, info_prod, result_prod, info_desc, res) {
+    var prod_data = {stock: (result_prod.stock - 1)};
+    
+    Producto.findByIdAndUpdate(info_prod, prod_data, function(error, result) {
+        updateCompra(info_user,info_prod,info_desc,result_prod,res);
+    });
+}
+
+function updateCompra(info_user, info_prod, info_desc, result_prod, res) {
     Usuario.findById(info_user, function(error, result) {
         var found = false;
         var compra = result.lista_de_la_compra;
@@ -78,8 +81,20 @@ function updateCompra(info_user, info_prod) {
             compra.push({idProducto: info_prod, cantidad: 1});
         }
         
-        Usuario.findByIdAndUpdate(info_user, {lista_de_la_compra: compra}, function(error, result) {});
-    })
+        Usuario.findByIdAndUpdate(info_user, {lista_de_la_compra: compra}, function(error, result) {
+            var coste = result_prod.precio;
+            var haveDiscount = info_desc !== undefined;
+            if (haveDiscount) checkDescuento(info_desc,coste,res);
+            else sendMessage("Compra realizada correctamente. Coste: " + coste, res, STATUS_OK);
+        });
+    });
+}
+
+function checkDescuento(info_desc, coste, res) {
+    Descuento.findById(info_desc, function(error, result) {
+        if (!error) sendMessage("Compra realizada correctamente. Coste: " + coste + " - " + result.valor + " = " + (coste - result.valor), res, STATUS_OK);
+        else sendMessage("No existe ningun descuento con ese _id", res, STATUS_ERROR);
+    });
 }
 
 // Compra de producto con Async

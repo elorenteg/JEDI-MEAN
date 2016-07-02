@@ -1,4 +1,4 @@
-var models = [ './productos.model', './usuarios.model'];
+var models = [ './productos.model', './usuarios.model', './descuentos.model'];
 
 /**
  Funcion para inicializar los modulos, basado en el array definido arriba 
