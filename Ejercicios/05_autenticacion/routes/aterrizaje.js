@@ -41,7 +41,7 @@ function getPuerto(req, res) {
 
 function getPuertoPeso(peso_nave, res) {
     Puerto.findOne({peso_aceptado: peso_nave}, function(error, puerto) {
-        if (!error) {
+        if (!error && puerto != undefined) {
             var coordenadas = {coord_x: puerto.coordenada_x, coord_y: puerto.coordenada_y};
             jsonMessage("Info del puerto", coordenadas, res, STATUS_OK);
         }

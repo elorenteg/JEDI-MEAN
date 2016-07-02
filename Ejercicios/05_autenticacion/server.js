@@ -11,6 +11,7 @@ var async    = require('async');
 
 var config = require('./config');
 mongoose.connect(config.db_path);
+var bcrypt = require('bcrypt');
 
 var db = mongoose.connection;
 db.on('error', function(err) {
@@ -75,12 +76,19 @@ function getAllNaves(res) {
 
 function insertNave(req, res) {
     var nave_data = req.body;
-    var new_nave = new Nave(nave_data);
     
-    new_nave.save(function(error, nave) {
-        if (!error) jsonMessage("Nave añadida", nave, res, STATUS_OK);
-        else sendMessage("Error al añadir la nave", res, STATUS_ERROR);
-    })
+    bcrypt.hash(nave_data.codigo_seguridad, 12, function(error, hash) {
+        if (error) sendMessage("Error al encriptar el código de seguridad", res, STATUS_ERROR);
+        else {
+            nave_data.codigo_seguridad = hash;
+            var new_nave = new Nave(nave_data);
+            
+            new_nave.save(function(error, nave) {
+                if (!error) jsonMessage("Nave añadida", nave, res, STATUS_OK);
+                else sendMessage("Error al añadir la nave", res, STATUS_ERROR);
+            })
+        }
+    });
 }
 
 function insertPuerto(req, res) {

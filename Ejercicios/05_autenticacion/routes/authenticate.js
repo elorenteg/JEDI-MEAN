@@ -1,5 +1,6 @@
 var express = require('express');
 var log = require('winston');
+var bcrypt = require('bcrypt');
 var router = express.Router();
 
 module.exports = router;
@@ -43,17 +44,18 @@ function authenticate(req, res) {
         if (!nave) res.status(401).send('No se ha encontrado la nave');
         else {
             // Comprobamos las contraseñas
-            if (nave.codigo_seguridad !== codigo_seguridad) {
-                res.status(401).send('Codigo de seguridad incorrecto');
-            } else {
-                // Generamos el token con el modulo jwt
-                var token = jwt.sign(nave.toObject(), secret, {
-                    expiresInMinutes: 1440 // Este token expirará en 24h
-                });
+            bcrypt.compare(codigo_seguridad, nave.codigo_seguridad, function(err, result) {
+                if(err) res.status(401).send('Codigo de seguridad incorrecto');
+                else {
+                    // Generamos el token con el modulo jwt
+                    var token = jwt.sign(nave.toObject(), secret, {
+                        expiresIn: 24*60*60 // Este token expirará en 24h
+                    });
 
-                // Le enviamos el token al cliente
-                res.json({ token: token });
-            }
+                    // Le enviamos el token al cliente
+                    res.json({ token: token });
+                }
+            })
         }
     });
 }

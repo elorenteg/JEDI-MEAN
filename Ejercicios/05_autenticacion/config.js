@@ -15,4 +15,4 @@
 // la información codificada en él (username y password).
 exports.jwt_secret = "S0m3ultr4s3cur3s3cr3t";
 
-exports.db_path = 'mongodb://localhost/example_05';
+exports.db_path = 'mongodb://localhost/ejercicio_05';
