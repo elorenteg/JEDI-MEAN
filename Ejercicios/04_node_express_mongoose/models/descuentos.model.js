@@ -9,7 +9,7 @@ module.exports = function() {
     // Esquema que seguirán los objetos de la colección tasks
     var descuentoSchema = new Schema({
         valor: {type: Number, required: true},
-        caducidad: {type: Date, default: Date.tomorrow}
+        caducidad: {type: Date, default: new Date()}
     });
     
     mongoose.model('Descuento', descuentoSchema, 'descuento');

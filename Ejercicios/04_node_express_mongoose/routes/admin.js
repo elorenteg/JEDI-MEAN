@@ -24,7 +24,7 @@ router.patch('/actualizarProducto/:id_prod', function(req, res) {
     updateProducto(req,res);
 });
 
-router.post('/anadirDescuento/', function(req, res) {
+router.post('/anadirDescuento', function(req, res) {
     insertDescuento(req,res);
 });
 

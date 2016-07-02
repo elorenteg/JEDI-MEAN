@@ -20,6 +20,7 @@ var models = require('./models');
 models.initialize();
 var Producto = mongoose.model('Producto');
 var Usuario = mongoose.model('Usuario');
+var Descuento = mongoose.model('Descuento');
 
 var app = express();
 app.use(bodyParser.json());
@@ -43,6 +44,11 @@ app.get('/producto/:id_prod', function(req, res) {
 app.post('/registrarUsuario', function(req, res) {
     registerUsuario(req,res);
 });
+
+app.get('/descuentos', function(req, res) {
+    getAllDescuentos(res);
+});
+
 
 app.all('/*', function(req, res) {
     sendMessage("Ruta invalida", res, STATUS_ERROR);
@@ -88,5 +94,12 @@ function registerUsuario(req, res) {
     new_user.save(function(error, result) {
         if(!error) jsonMessage("Usuario registrado correctamente", result, res, STATUS_OK);
         else sendMessage("Error al añadir el usuario", res, STATUS_ERROR);
+    })
+}
+
+function getAllDescuentos(res) {
+    Descuento.find({}, function(error, result) {
+        if (!error && result.length !== 0) jsonMessage("Info de todos los descuentos", result, res, STATUS_OK);
+        else sendMessage("No existe ningun descuento", res, STATUS_ERROR);
     })
 }
