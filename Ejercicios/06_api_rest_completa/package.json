@@ -1,0 +1,23 @@
+{
+  "name": "04_node_express_mongoose",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.2",
+    "winston": "^2.2.0",
+    "bcrypt": "~0.8.7",
+    "jsonwebtoken": "~7.0.1",
+    "mongodb": "~2.1.18",
+    "express-jwt": "~3.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
