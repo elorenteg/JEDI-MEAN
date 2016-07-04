@@ -7,7 +7,8 @@ module.exports = function() {
         nombre:  { type: String, required: true },
         codigo_acceso: { type: String, required: true },
         craftworld: { type: String },
-        rango: { type: String , default: 'brujo', enum: ['brujo', 'soldado', 'comandante', 'admin']}
+        rango: { type: String , default: 'brujo', enum: ['brujo', 'soldado', 'comandante', 'admin']},
+        recursos: { type: [Schema.Types.ObjectId], default: [] }
     });
     
     mongoose.model('Usuario', usuarioSchema, 'usuarios');

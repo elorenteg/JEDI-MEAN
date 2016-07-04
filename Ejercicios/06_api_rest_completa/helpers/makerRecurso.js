@@ -110,7 +110,8 @@ function updateEncrypted(model, modelName, req, res) {
 }
 
 function updateModel(model, modelName, req, res) {
-    model.findOneAndUpdate({craftworld:req.params.id_craft,_id:req.params.id_model}, req.body, {'new': true}, function(error, result) {
+    log.info(req.params.nombre_craft);
+    model.findOneAndUpdate({craftworld:req.params.nombre_craft,_id:req.params.id_model}, req.body, {'new': true}, function(error, result) {
         if (!error) jsonMessage(modelName + " actualizado", result, res, STATUS_OK);
         else sendMessage("Error al actualizar el " + modelName + " en ese CraftWorld", res, STATUS_ERROR);
     });
