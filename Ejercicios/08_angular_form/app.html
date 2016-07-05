@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head lang="es">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="./app.css">
+        </link>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <script src="extras.js"></script>
+        <script src="app.js"></script>
+        <title>Formulario</title>
+    </head>
+    <body ng-app="FormsApp" ng-controller="FormsController">
+        <div class="container">
+            <div class="row" style="margin-top:20px">
+                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                    <form role="form" name="myForm">
+                        <fieldset>
+                            <h2>Iniciar Sesión</h2>
+                            <hr class="colorgraph">
+                            <!--Formulario-->
+                            <div class="form-group" ng-class="{'has-error':myForm.myEmail.$dirty && myForm.myEmail.$invalid}">
+                                <!--Email-->
+                                <input class="form-control input-lg" placeholder="Correo Electrónico" name="myEmail"
+                                    ng-model="correo" type="email" required>
+                                <span class="text-danger" ng-show="myForm.myEmail.$dirty && myForm.myEmail.$invalid">
+                                    <h5 ng-show="myForm.myEmail.$error.email">Correo invalido</h5>
+                                    <h5 ng-show="myForm.myEmail.$error.required">El correo es obligatorio</h5>
+                                </span>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error':myForm.myPass.$dirty && myForm.myPass.$invalid}">
+                                <!--Password-->
+                                <input class="form-control input-lg" placeholder="Contraseña" name="myPass"
+                                    ng-model="pass" type="password" required>
+                                <span class="text-danger" ng-show="myForm.myPass.$dirty && myForm.myPass.$invalid">
+                                    <h5>La contraseña es invalida</h5>
+                                </span>
+                            </div>
+                            <!--Extra (No necesario)-->
+                            <span class="button-checkbox">
+                            <button type="button" class="btn" data-color="info">Recordarme</button>
+                            <input type="checkbox" name="remember_me" id="remember_me" checked="checked" class="hidden">
+                            <a href="" class="btn btn-link pull-right">Olvidaste la contraseña?</a>
+                            </span>
+                            <hr class="colorgraph">
+                            <!--Botones-->
+                            <div class="row">
+                                <span class="text-danger" ng-show="loginError">
+                                    <h5 ng-show="stateLogin==='login_ok'">Login correcto</h5>
+                                    <h5 ng-show="stateLogin==='login_name_no_ok'">Email incorrecto</h5>
+                                    <h5 ng-show="stateLogin==='login_no_ok'">Contraseña incorrecta</h5>
+                                    <h5 ng-show="stateLogin==='registro_ok'">Registro correcto</h5>
+                                    <h5 ng-show="stateLogin==='registro_no_ok'">Ya existe un usuario con ese email</h5>
+                                </span>
+                                <!--Botton acceder-->
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <input ng-click="entrar()" ng-disabled="myForm.$invalid" class="btn btn-lg btn-success btn-block" value="Entrar"></input>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <input ng-click="registrar()" class="btn btn-lg btn-primary btn-block" value="Registrarse"></input>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
