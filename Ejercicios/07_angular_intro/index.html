@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <title>Espadas Laser Jedi</title>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script> <!--Angular-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> <!--bootstrap css-->
+        <script src="controller.js"></script> 
+    </head>
+
+
+    <body ng-app="my_app" ng-controller="my_app_controller">
+        <div class="container-fluid">
+
+            <!--Formulario-->
+            <div class="row">
+                <div class="col-md-4"  style="width:48%; float:left;">
+                    <h2>Seleccionar Producto:</h2>
+                    <select ng-model="selectorProducto" ng-change="changeProduct()" class="form-control" id="state">
+                        <option value="Pieza">Pieza</option>
+                        <option value="Nave">Nave espacial</option>
+                    </select>
+                    
+                    <br><br>
+                    
+                     <form class="form-group" ng-show="selectorProducto=='Pieza'" name="formPieza">
+                        <h2>Añadir Pieza:</h2>
+                        <!--Datos del formulari-->
+                        <div class="form-group">
+                            <input type="text"  ng-model="piezaTipo" name="tipo" required class="form-control" placeholder="Tipo"/> <br>
+                            <input type="number"  ng-model="piezaCoste" name="coste" required class="form-control" placeholder="Coste"/> <br>
+                            <input type="text"  ng-model="piezaLocal" name="local" required class="form-control" placeholder="Localización"/> <br>
+                            <input type="number"  ng-model="piezaStock" name="stock" required class="form-control" placeholder="Stock"/> <br>
+                            <span class="text-danger" ng-show="formPieza.$dirty && formPieza.$invalid">
+                                <h5 ng-show="formPieza.tipo.$error.required || formPieza.coste.$error.required ||
+                                        formPieza.local.$error.required || formPieza.stock.$error.required">Rellene todos los campos</h5>
+                                <h5 ng-show="formPieza.coste.$invalid">El coste no es correcto</h5>
+                                <h5 ng-show="formPieza.stock.$invalid">El stock no es correcto</h5>
+                            </span>
+                        </div>
+                        <!--Botones-->
+                        <div class="modal-footer">
+                            <button type="button" ng-disabled="formPieza.$invalid" ng-click="anadirPieza()" class="btn btn-success">Añadir</button>
+                            <button type="button" ng-click="borrarPieza()" class="btn btn-danger" data-dismiss="modal">Borrar</button>
+                        </div>
+                    </form>
+                    <form class="form-group" ng-show="selectorProducto=='Nave'" name="formNave">
+                        <h2>Añadir Nave espacial:</h2>
+                        <!--Datos del formulari-->
+                        <div class="form-group">
+                            <input type="text"  ng-model="naveModelo" name="modelo" required class="form-control" placeholder="Modelo"/> <br>
+                            <input type="number"  ng-model="naveCoste" name="coste" required class="form-control" placeholder="Coste"/> <br>
+                            <input type="number"  ng-model="naveVelocidad" name="velocidad" required class="form-control" placeholder="Velocidad máxima"/> <br>
+                            <input type="number"  ng-model="naveKilometros" name="kilometros" required class="form-control" placeholder="Kilómetros recorridos"/> <br>
+                            <span class="text-danger" ng-show="formNave.$dirty && formNave.$invalid">
+                                <h5 ng-show="formNave.tipo.$error.required || formNave.coste.$error.required ||
+                                        formNave.local.$error.required || formNave.stock.$error.required">Rellene todos los campos</h5>
+                                <h5 ng-show="formNave.coste.$invalid">El coste no es correcto</h5>
+                                <h5 ng-show="formNave.velocidad.$invalid">La velocidad no es correcta</h5>
+                                <h5 ng-show="formNave.kilometros.$invalid">Los kilómetros no son correctos</h5>
+                            </span>
+                        </div>
+                        <!--Botones-->
+                        <div class="modal-footer">
+                            <button type="button" ng-disabled="formNave.$invalid" ng-click="anadirNave()" class="btn btn-success">Añadir</button>
+                            <button type="button" ng-click="borrarNave()" class="btn btn-danger" data-dismiss="modal">Borrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!--Lista-->
+            <div class="row">
+                <div class="col-md-12"  style="width:48%; float:left;">
+                    <!--Buscador-->
+                    <form class="navbar-form navbar-up" role="search">
+                        <div class="input-group ">
+                            <input ng-model="pieza_buscador" type="text" class="form-control" placeholder="Buscar">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+            
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nº</th>
+                                <th>Tipo</th>
+                                <th>Coste</th>
+                                <th>Localización</th>
+                                <th>Stock</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="info in pieza_info | filter: pieza_buscador | filter: pieza_buscador" >
+                                <td>{{$index+1}}</td>
+                                <td>{{info.tipo | uppercase}}</td>
+                                <td>{{info.coste | currency: '€'}}</td>
+                                <td>{{info.localizacion}}</td>
+                                <td>{{info.stock}}</td>
+                                <td><div ng-click="eliminar_pieza($index)" class="btn btn-danger">Borrar</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                
+                <div class="col-md-12"  style="width:48%; float:right;">
+                    
+                    <!--Buscador-->
+                    <form class="navbar-form navbar-up" role="search">
+                        <div class="input-group ">
+                            <input ng-model="nave_buscador" type="text" class="form-control" placeholder="Buscar">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nº</th>
+                                <th>Modelo</th>
+                                <th>Coste</th>
+                                <th>Velocidad</th>
+                                <th>Kilómetros</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="info in nave_info | filter: nave_buscador | filter: nave_buscador" >
+                                <td>{{$index+1}}</td>
+                                <td>{{info.modelo | uppercase}}</td>
+                                <td>{{info.coste | currency: '€'}}</td>
+                                <td>{{info.velocidad}}</td>
+                                <td>{{info.kilometros}}</td>
+                                <td><div ng-click="eliminar_nave($index)" class="btn btn-danger">Borrar</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
