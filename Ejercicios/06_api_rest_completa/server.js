@@ -77,3 +77,38 @@ function jsonMessage(mss, json, res, nstatus) {
     res.status(nstatus).json(json);
     log.info(mss);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+var request = require('request');
+
+//test data
+var USER_DATA = {
+    "nombre": "admin",
+    "codigo_acceso": "12345"
+}
+
+var options = {
+    method: 'POST',
+    url: 'http://localhost:8080/login',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    json: USER_DATA
+
+};
+
+
+function callback(error, response, body) {
+    if (!error) {
+        var info = JSON.parse(JSON.stringify(body));
+        console.log(info);
+    }
+    else {
+        console.log('Error happened: '+ error);
+    }
+}
+
+//send request
+request(options, callback);
