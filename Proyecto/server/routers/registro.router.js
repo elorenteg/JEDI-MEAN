@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 
 module.exports = router;
 
+var config = require('../config');
 var bcrypt = require('bcrypt');
-var secret = require('../config').jwt_secret;
 var jwt = require('jsonwebtoken');
 
 var prints = require('../helpers/prints');

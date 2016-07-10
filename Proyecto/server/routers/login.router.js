@@ -4,8 +4,8 @@ var mongoose = require('mongoose');
 
 module.exports = router;
 
+var config = require('../config');
 var bcrypt = require('bcrypt');
-var secret = require('../config').jwt_secret;
 var jwt = require('jsonwebtoken');
 
 var prints = require('../helpers/prints');
@@ -27,7 +27,7 @@ function authenticate(req, res) {
         if (!error && usuario) {
             bcrypt.compare(user.password, usuario.password, function(error, result) {
                 if (!error) {
-                    var token = jwt.sign(user, secret, {
+                    var token = jwt.sign(user, config.JWT_SECRET, {
                         expiresIn: 24*60*60 // Este token expirará en 24h
                     });
                     prints.jsonMessage("Login correcto", { token: token }, res);
@@ -38,3 +38,7 @@ function authenticate(req, res) {
         else prints.errorMessage("No existe ningun Usuario con ese email", res);
     });
 }
+
+router.get('/usuarios', function(req, res) {
+    maker.getAll(Usuario,req,res);
+});

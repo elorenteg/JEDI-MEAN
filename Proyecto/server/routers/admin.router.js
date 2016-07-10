@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 module.exports = router;
 
-var jwt_secret = require('../config').jwt_secret;
+var config = require('../config');
 var express_jwt = require('express-jwt');
 var bcrypt = require('bcrypt');
 
@@ -25,7 +25,7 @@ mongoose.connection.once('open', function() {
     initGlobalAdmin();
 });
 
-router.use('/', express_jwt({secret: jwt_secret, requestProperty: 'usuario', credentialsRequired: false}), function(req, res, next) {
+router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuario', credentialsRequired: false}), function(req, res, next) {
     if (req.usuario && req.usuario.isAdmin) next();
     else {
         mss = 'No tienes acceso a este recurso!';
