@@ -19,19 +19,17 @@ router.post('/', function(req, res) {
 function register(req, res) {
     var user = req.body;
     
-    Usuario.findOne({email: user.email}, function(error, usuario) {
-        if (!error && !usuario) {
+    //Comprovar que ya exista ese email se hara con el unique de mongoose (error.code = 11000)
+    //Usuario.findOne({email: user.email}, function(error, usuario) {
+        //if (!error && !usuario) {
             bcrypt.hash(user.password, 12, function(error, hash) {
-                if (error) prints.errorMessage("Error al encriptar el código de acceso", error, res);
+                if (error) res.status(500).send(error);
                 else {
-                    user.codigo_acceso = hash;
+                    user.password = hash;
                     maker.insert(Usuario,user,req,res);
                 }
             });
-        }
-        else {
-            mss = "Ya existe un usuario con ese email";
-            prints.errorMessage(mss, mss, res);
-        }
-    });
+        //}
+        //else res.status(404).send(error);
+    //});
 }

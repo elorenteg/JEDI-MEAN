@@ -1,3 +1,4 @@
-/Ejemplos/*
-/Transpas/*
-*/node_modules
+Ejemplos
+Transpas
+node_modules
+bower_components

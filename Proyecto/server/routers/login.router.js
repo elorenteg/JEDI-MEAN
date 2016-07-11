@@ -26,16 +26,16 @@ function authenticate(req, res) {
     Usuario.findOne({email:user.email}, function(error, usuario) {
         if (!error && usuario) {
             bcrypt.compare(user.password, usuario.password, function(error, result) {
-                if (!error) {
+                if (!error && result) {
                     var token = jwt.sign(user, config.JWT_SECRET, {
                         expiresIn: 24*60*60 // Este token expirará en 24h
                     });
-                    prints.jsonMessage("Login correcto", { token: token }, res);
+                    res.status(200).send({ token: token });
                 }
-                else prints.errorMessage("Codigo de acceso incorrecto", res);
+                else res.status(401).send(error);
             })
         }
-        else prints.errorMessage("No existe ningun Usuario con ese email", res);
+        else res.status(404).send(error);
     });
 }
 

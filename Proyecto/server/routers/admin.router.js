@@ -16,7 +16,7 @@ var Libro = mongoose.model('Libro');
 var Tienda = mongoose.model('Tienda');
 
 var globalAdminInfo = {
-    email: "admin",
+    email: "admin@gmail.com",
     password: "12345",
     isAdmin: true
 }

@@ -1,10 +1,9 @@
 var log = require('winston');
-var prints = require('./prints');
 
 function handle(res) {
     return function(error, result) {
-        if (error) prints.errorMessage(error,error,res);
-        else prints.jsonMessage(result,result,res);
+        if (error) res.status(404).send(error);
+        else res.status(200).send(result);
     }
 }
 
