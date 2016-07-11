@@ -5,4 +5,9 @@
 var DEPENDENCIES = ['ngMaterial', 'ngMessages', 'ui.router'];
 
 // Y declaramos el módulo de nuestra aplicación
-angular.module('LibrosApp', DEPENDENCIES);
+angular.module('LibrosApp', DEPENDENCIES)
+    .config(function($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+            .primaryPalette('light-blue')
+            .accentPalette('pink');
+    });

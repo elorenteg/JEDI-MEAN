@@ -1,9 +1,11 @@
 <md-content>
-    <md-toolbar class="md-tall">
-      <h1 class="md-toolbar-tools">
-        Compra de Libros · {{ pageName() }}
-      </h1>
-      <md-button style="float:right" ng-click="logout()" ng-show="showLogout()">Logout</md-button>
+    <md-toolbar class="md-medium-tall">
+      <div class="md-toolbar-tools" style="margin-top:10px;">
+        <img class="png-icon" src="img/icons/love_libraries.png" style="width:115px; margin-top:10px; margin-right:10px;"></img>
+        <h1> — {{ pageName() }}</h1>
+        <span flex></span>
+        <md-button ng-click="logout()" ng-show="showLogout()"><b>Logout<b></md-button>
+      </div>
     </md-toolbar>
 </md-content>
 <div ui-view></div>

@@ -13,11 +13,26 @@ angular.module('LibrosApp').config(['$stateProvider', '$urlRouterProvider', '$lo
         url: '/login',
         controller: 'LoginCtrl'
     })
-    .state('tareas', {
+    .state('main', {
         parent: 'layout',
-        templateUrl: 'views/partials/auth_protected/tareas.html',
-        url: '/tareas',
-        controller: 'TareasCtrl'
+        templateUrl: 'views/partials/auth_protected/main.html',
+        controller: 'MainCtrl'
+    })
+    
+    .state('comprar', {
+        parent: 'main',
+        templateUrl: 'views/partials/auth_protected/comprar.html',
+        url: '/comprar'
+    })
+    .state('pedidos', {
+        parent: 'main',
+        templateUrl: 'views/partials/auth_protected/pedidos.html',
+        url: '/pedidos'
+    })
+    .state('administracion', {
+        parent: 'main',
+        templateUrl: 'views/partials/auth_protected/administracion.html',
+        url: '/administracion'
     });
 
     // Cuando la ruta a la que acceda el usuario no sea ninguna

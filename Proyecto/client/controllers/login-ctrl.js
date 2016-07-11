@@ -27,7 +27,7 @@ var LoginCtrl = function($scope, LoginService, ToastService, $state) {
         LoginService.login($scope.user)
             .then(function() {
                 // Si todo correcto, vamos al estado tareas
-                $state.go('tareas');
+                $state.go('comprar');
             }, function(err) {
                 console.log(err);
                 // Nuevamente discrimanos según el estado de la respuesta
