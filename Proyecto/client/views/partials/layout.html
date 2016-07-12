@@ -7,5 +7,8 @@
         <md-button ng-click="logout()" ng-show="showLogout()"><b>Logout<b></md-button>
       </div>
     </md-toolbar>
+    
+    <md-content flex layout="column" layout-fill>
+        <div ui-view=""  style="height:100%" ></div>
+    </md-content>
 </md-content>
-<div ui-view></div>

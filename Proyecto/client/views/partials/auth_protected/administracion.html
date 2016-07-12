@@ -1,64 +1,69 @@
 
-    <div layout="row" layout-align="start center" flex>
-        <h1>Libros</h1>
-        <span flex></span>
-        <md-button class="md-fab md-primary" ng-click="mostrarDialogLibro($event)">
-            <ng-md-icon icon="add" style="fill:white; vertical-align: middle; display: inline-block; line-height: 1;"
-            size="30"></ng-md-icon>
-        </md-button>
-    </div>
-    
-    <center><h3 ng-if="mostrarMensajeNoLibros()">No tienes ningun libro</h3></center>
+<div layout="row" flex>
+    <div layout="column" layout-align="start center" flex style="width:40%; padding-left:20px; padding-right:20px" layout-fill>
+        <div layout="row" layout-fill flex>
+            <h1>Libros</h1>
+            <span flex></span>
+            <md-button class="md-fab md-primary md-mini" ng-click="mostrarDialogLibro($event)">
+                <ng-md-icon icon="add" style="fill:white; vertical-align: middle; display: inline-block; line-height: 1;"></ng-md-icon>
+            </md-button>
+        </div>
+        
+        <center><h3 ng-if="mostrarMensajeNoLibros()">No tienes ningun libro</h3></center>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nº</th>
-                    <th>Título</th>
-                    <th>ISBN</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="libro in libros" >
-                    <td>{{$index+1}}</td>
-                    <td>{{libro.titulo}}</td>
-                    <td>{{libro.isbn}}</td>
-                    <td>{{libro.precio | currency: '€'}}</td>
-                    <td><div ng-click="eliminarLibro($index)" class="btn btn-danger">Borrar</div></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive" layout-fill>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Título</th>
+                        <th>ISBN</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="libro in libros" >
+                        <td>{{$index+1}}</td>
+                        <td>{{libro.titulo}}</td>
+                        <td>{{libro.isbn}}</td>
+                        <td>{{libro.precio | currency: '€'}}</td>
+                        <td><div ng-click="eliminarLibro($index)" class="btn btn-danger">Borrar</div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div layout="row" layout-align="start center" flex>
-        <h1>Tiendas</h1>
-        <span flex></span>
-        <md-button class="md-fab md-primary" ng-click="mostrarDialogTienda($event)">
-            <ng-md-icon icon="add" style="fill:white; vertical-align: middle; display: inline-block; line-height: 1;"
-            size="30"></ng-md-icon>
-        </md-button>
-    </div>
-    
-    <center><h3 ng-if="mostrarMensajeNoTiendas()">No tienes ninguna Tienda</h3></center>
+        
+    <div layout="column" layout-align="start center" flex style="width:40%; padding-left:20px; padding-right:20px" layout-fill>
+        <div layout="row" layout-fill>
+            <h1>Tiendas</h1>
+            <span flex></span>
+            <md-button class="md-fab md-primary md-mini" ng-click="mostrarDialogLibro($event)">
+                <ng-md-icon icon="add" style="fill:white; vertical-align: middle; display: inline-block; line-height: 1;"></ng-md-icon>
+            </md-button>
+        </div>
+        
+        <center><h3 ng-if="mostrarMensajeNoTiendas()">No tienes ninguna Tienda</h3></center>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nº</th>
-                    <th>Sigla</th>
-                    <th>Dirección</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="tienda in tiendas" >
-                    <td>{{$index+1}}</td>
-                    <td>{{tienda.sigla | uppercase}}</td>
-                    <td>{{tienda.direccion}}</td>
-                    <td><div ng-click="eliminarTienda($index)" class="btn btn-danger">Borrar</div></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive" layout-fill>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Sigla</th>
+                        <th>Dirección</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="tienda in tiendas" >
+                        <td>{{$index+1}}</td>
+                        <td>{{tienda.sigla | uppercase}}</td>
+                        <td>{{tienda.direccion}}</td>
+                        <td><div ng-click="eliminarTienda($index)" class="btn btn-danger">Borrar</div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
