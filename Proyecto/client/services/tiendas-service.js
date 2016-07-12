@@ -11,9 +11,10 @@
 // funciones asíncronas
 
 // LoginService lo utilizamos para obtener las tareas del usuario logueado
-TareasService = function($http, $q, LoginService) {
+TiendasService = function($http, $q, LoginService) {
     // Variable privada
-    var SERVER_URL_TAREAS = "http://localhost:8080/usuarios/tareas/"
+    var SERVER_URL_ALL_TIENDA = "http://localhost:8080/api/admin/tiendas/"
+    var SERVER_URL_ONE_TIENDA = "http://localhost:8080/api/admin/tienda/"
 
     // El objeto this no es el mismo dentro de las funciones
     // Por eso creamos una copia, para poder referenciarlo
@@ -22,43 +23,47 @@ TareasService = function($http, $q, LoginService) {
     var self = this;
 
     // Estado que guarda el servicio. Array de tareas.
-    var tareas = null;
+    var tiendas = null;
 
     this.reset = function() {
-        tareas = null;
+        tiendas = null;
     };
 
     // Función pública, obtener todas las tareas
-    this.getTareas = function() {
+    this.getTiendas = function() {
         var q = $q.defer();
 
-        // Si no está logueado damos error (no debería pasar ya que si
-        // llegamos aquí es porque estamos logueados)
-        if (!LoginService.isLoggedIn()) q.reject();
-        else LoginService.getUser().then(
-            // getUser de LoginService devuelve una promise, por lo que hay que usar then
-            function(user) {
-                tareas = user.tareas;
-                q.resolve(tareas);
-            }, function(error) {
-                q.reject(error);
-            }
-        );
-
-        // Como la función es asíncrona, devolvemos una promise
+        // Post con primer parámetro la url, segundo el body, que será la tarea
+        $http.get(SERVER_URL_ALL_TIENDA)
+            .then(
+                function(response) {
+                    // La añadimos también en nuestro array
+                    // Como tareas compartirá referencia con $scope.tareas
+                    // en el controlador TareasCtrl, también se actualizará
+                    // en la vista el cambio, sin necesidad de hacer nada
+                    tiendas = response.data;
+                    q.resolve(tiendas);
+                },
+                function(err) {
+                    q.reject(err);
+                }
+            );
 
         return q.promise;
     };
 
-    this.actualizarTarea = function(id, completada) {
+    this.anadirTienda = function(tienda) {
         var q = $q.defer();
 
-        // Petición patch al servidor, con la url como primer parámetro
-        // y el body que pasamos como segundo
-        // Notad que el token ya lo pondrá el servicio authInterceptor
-        $http.patch(SERVER_URL_TAREAS + id, { completada: completada })
+        // Post con primer parámetro la url, segundo el body, que será la tarea
+        $http.post(SERVER_URL_ONE_TIENDA, tienda)
             .then(
-                function() {
+                function(response) {
+                    // La añadimos también en nuestro array
+                    // Como tareas compartirá referencia con $scope.tareas
+                    // en el controlador TareasCtrl, también se actualizará
+                    // en la vista el cambio, sin necesidad de hacer nada
+                    tiendas.push(response.data);
                     q.resolve();
                 },
                 function(err) {
@@ -68,20 +73,20 @@ TareasService = function($http, $q, LoginService) {
 
         return q.promise;
     }
-
-    this.anadirTarea = function(task) {
+    
+    this.eliminarTienda = function(id) {
         var q = $q.defer();
 
         // Post con primer parámetro la url, segundo el body, que será la tarea
-        $http.post(SERVER_URL_TAREAS, task)
+        $http.delete(SERVER_URL_ONE_TIENDA + tiendas[id].sigla, {})
             .then(
                 function(response) {
                     // La añadimos también en nuestro array
                     // Como tareas compartirá referencia con $scope.tareas
                     // en el controlador TareasCtrl, también se actualizará
                     // en la vista el cambio, sin necesidad de hacer nada
-                    tareas.push(response.data.tareas[response.data.tareas.length-1]);
-                    q.resolve();
+                    tiendas.splice(id,1);
+                    q.resolve(tiendas);
                 },
                 function(err) {
                     q.reject(err);
@@ -92,4 +97,4 @@ TareasService = function($http, $q, LoginService) {
     }
 }
 
-angular.module('LibrosApp').service('TareasService', ['$http', '$q', 'LoginService', TareasService]);
+angular.module('LibrosApp').service('TiendasService', ['$http', '$q', 'LoginService', TiendasService]);

@@ -1,0 +1,53 @@
+<md-dialog style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 style="color:white">Añadir un Libro</h2><span flex="flex"></span>
+            <md-button ng-click="cancel()" class="md-icon-button" style="width: 100px;">
+            <md-icon class="material-icons" style="color:white">Cerrar</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <form name="libroForm" ng-submit="$event.preventDefault()" flex="flex" layout-align="center center"
+        style="padding-left:20px; padding-right:20px">
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Título*</label>
+                    <input required name="titulo" ng-model="titulo">
+                    <div ng-messages="libroForm.titulo.$error" ng-if="libroForm.titulo.$dirty && libroForm.titulo.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container flex-gt-sm>
+                    <label>ISBN*</label>
+                    <input required="required" name="isbn" ng-model="isbn">
+                    <div ng-messages="libroForm.isbn.$error" ng-if="libroForm.isbn.$dirty && libroForm.isbn.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Precio</label>
+                    <input required="required" name="precio" ng-model="precio">
+                    <div ng-messages="libroForm.precio.$error" ng-if="libroForm.precio.$dirty && libroForm.precio.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+            </div>
+            
+            <div layout-gt-xs="row">
+                <md-input-container flex-gt-sm>
+                    <label>Descripción</label>
+                    <input required="required" name="descripcion" ng-model="descripcion">
+                    <div ng-messages="libroForm.descripcion.$error" ng-if="libroForm.descripcion.$dirty && libroForm.descripcion.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </form>
+        <div layout="row" layout-align="center center" class="md-actions"><span flex="flex"></span>
+            <md-button ng-disabled="libroForm.$invalid" ng-click="answer()" class="md-accent">Añadir</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

@@ -14,6 +14,7 @@ angular.module('LibrosApp').config(['$stateProvider', '$urlRouterProvider', '$lo
         controller: 'LoginCtrl'
     })
     .state('main', {
+        abstract: true,
         parent: 'layout',
         templateUrl: 'views/partials/auth_protected/main.html',
         controller: 'MainCtrl'
@@ -32,7 +33,8 @@ angular.module('LibrosApp').config(['$stateProvider', '$urlRouterProvider', '$lo
     .state('administracion', {
         parent: 'main',
         templateUrl: 'views/partials/auth_protected/administracion.html',
-        url: '/administracion'
+        url: '/administracion',
+        controller: 'AdministracionCtrl'
     });
 
     // Cuando la ruta a la que acceda el usuario no sea ninguna

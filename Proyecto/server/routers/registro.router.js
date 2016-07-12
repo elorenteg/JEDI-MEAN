@@ -8,7 +8,6 @@ var config = require('../config');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-var prints = require('../helpers/prints');
 var maker = require('../helpers/maker');
 var Usuario = mongoose.model('Usuario');
 

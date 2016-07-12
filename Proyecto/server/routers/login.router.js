@@ -8,7 +8,6 @@ var config = require('../config');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-var prints = require('../helpers/prints');
 var maker = require('../helpers/maker');
 var Usuario = mongoose.model('Usuario');
 
@@ -20,7 +19,7 @@ function authenticate(req, res) {
     var user = {
         email: req.body.email,
         password: req.body.password,
-        isAdmin: (req.body.email === 'admin')
+        isAdmin: (req.body.email === 'admin@gmail.com')
     };
     
     Usuario.findOne({email:user.email}, function(error, usuario) {

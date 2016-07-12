@@ -1,4 +1,4 @@
-var LayoutCtrl = function($scope, $state, LoginService, TareasService) {
+var LayoutCtrl = function($scope, $state, LoginService, LibrosService, TiendasService) {
     $scope.pageName = function() {
         if ($state.includes('login')) return "Login";
         else return "Listado de Libros";
@@ -6,7 +6,8 @@ var LayoutCtrl = function($scope, $state, LoginService, TareasService) {
 
     $scope.logout = function() {
         LoginService.logout();
-        TareasService.reset();
+        LibrosService.reset();
+        TiendasService.reset();
         $state.go('login');
     };
 
@@ -14,4 +15,4 @@ var LayoutCtrl = function($scope, $state, LoginService, TareasService) {
 };
 
 
-angular.module('LibrosApp').controller('LayoutCtrl', ['$scope', '$state', 'LoginService', 'TareasService', LayoutCtrl]);
+angular.module('LibrosApp').controller('LayoutCtrl', ['$scope', '$state', 'LoginService', 'LibrosService', 'TiendasService', LayoutCtrl]);

@@ -1,0 +1,43 @@
+<md-dialog style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 style="color:white">Añadir una Tienda</h2><span flex="flex"></span>
+            <md-button ng-click="cancel()" class="md-icon-button" style="width: 100px;">
+            <md-icon class="material-icons" style="color:white">Cerrar</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <form name="tiendaForm" ng-submit="$event.preventDefault()" flex="flex" layout-align="center center"
+        style="padding-left:20px; padding-right:20px">
+            <div layout-gt-xs="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Nombre*</label>
+                    <input required name="nombre" ng-model="nombre">
+                    <div ng-messages="tiendaForm.nombre.$error" ng-if="tiendaForm.nombre.$dirty && tiendaForm.nombre.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex-gt-sm>
+                    <label>Sigla*</label>
+                    <input required="required" name="sigla" ng-model="sigla">
+                    <div ng-messages="tiendaForm.sigla.$error" ng-if="tiendaForm.sigla.$dirty && tiendaForm.sigla.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div layout-gt-xs="row">
+                <md-input-container flex-gt-sm>
+                    <label>Dirección</label>
+                    <input required="required" name="direccion" ng-model="direccion">
+                    <div ng-messages="tiendaForm.direccion.$error" ng-if="tiendaForm.direccion.$dirty && tiendaForm.direccion.$invalid">
+                        <div ng-message="required">Rellena el campo</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </form>
+        <div layout="row" layout-align="center center" class="md-actions"><span flex="flex"></span>
+            <md-button ng-disabled="tiendaForm.$invalid" ng-click="answer()" class="md-accent">Añadir</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

@@ -8,7 +8,6 @@ var config = require('../config');
 var express_jwt = require('express-jwt');
 var bcrypt = require('bcrypt');
 
-var prints = require('../helpers/prints');
 var crudMaker = require('../helpers/crud_maker');
 var maker = require('../helpers/maker');
 var Usuario = mongoose.model('Usuario');
@@ -25,12 +24,9 @@ mongoose.connection.once('open', function() {
     initGlobalAdmin();
 });
 
-router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuario', credentialsRequired: false}), function(req, res, next) {
+router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuario'}), function(req, res, next) {
     if (req.usuario && req.usuario.isAdmin) next();
-    else {
-        mss = 'No tienes acceso a este recurso!';
-        prints.errorMessage(mss, mss, res);
-    }
+    else res.status(404).send({});
 });
 
 router.use('/libro', crudMaker(Libro, 'Libro'));
@@ -49,16 +45,10 @@ router.patch('/tienda/:id/anadirStock', function(req,res) {
             Libro.findOne(infoLibro, function(error, libro) {
                 var newStock = req.body.stock;
                 if (!error && libro) addStock(tienda,libro._id,newStock,res);
-                else {
-                    mss = 'No existe ese libro';
-                    prints.errorMessage(mss, mss, res);
-                }
+                else res.status(404).send(error);
             });
         }
-        else {
-            mss = 'No existe esa tienda';
-            prints.errorMessage(mss, mss, res);
-        }
+        else res.status(404).send(error);
     });
 });
 
@@ -71,35 +61,31 @@ function initGlobalAdmin() {
     Usuario.findOne({email: globalAdminInfo.email}, function(error, usuario) {
         if (!error && !usuario) {
             bcrypt.hash(globalAdminInfo.password, 12, function(error, hash) {
-                if (error) prints.consoleError("Error al encriptar el código de acceso");
+                if (error) console.log("Error al encriptar el código de acceso");
                 else {
                     globalAdminInfo.password = hash;
                     new Usuario(globalAdminInfo).save(function(error, usuario) {
-                        if (!error && usuario) prints.consoleInfo("Admin global creado");
-                        else prints.consoleError("Error al crear el Admin global");
+                        if (!error && usuario) console.log("Admin global creado");
+                        else console.log("Error al crear el Admin global");
                     });
                 }
             });
         }
-        else prints.consoleInfo("Admin global ya estaba creado");
+        else console.log("Admin global ya estaba creado");
     });
 }
 
 function addStock(tienda, id, newStock, res) {
     var libros = tienda.libros;
     var posLibro = findLibroInStock(libros, id);
-    console.log(posLibro);
     
     if (posLibro === -1) libros[libros.length] = {libro: id, stock: newStock};
     else libros[posLibro].stock += newStock;
     
     var infoTienda = {sigla: tienda.sigla};
     Tienda.findOneAndUpdate(infoTienda, {libros: libros}, {new: true}, function(error, tienda) {
-        if (!error) prints.jsonMessage("Tienda actualizada", tienda, res);
-        else {
-            mss = 'Error al actualizar el stock';
-            prints.errorMessage(mss, mss, res);
-        }
+        if (!error) res.status(200).send(tienda);
+        else res.status(404).send(error);
     });
 }
 

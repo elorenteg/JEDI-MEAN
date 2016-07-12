@@ -8,7 +8,8 @@ module.exports = function() {
         editorial: { type: String },
         isbn: { type: String, required: true },
         descripcion: { type: String },
-        tema: { type: [String] }
+        tema: { type: [String] },
+        precio: { type: Number, default: 0 }
     });
     
     mongoose.model('Libro', libroSchema, 'libros');

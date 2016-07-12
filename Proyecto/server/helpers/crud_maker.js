@@ -14,18 +14,19 @@ module.exports = function(model, modelname, population) {
 
     router.post('/', function(req, res) {
         var newInfo = req.body;
+        console.log(newInfo);
         maker.insert(model, newInfo, req, res);
     });
 
     router.patch('/:id', function(req, res) {
         var info = modelIDfind(modelname, req.params.id);
         var newInfo = req.body;
-        model.update(model, info, newInfo, req, res);
+        maker.update(model, info, newInfo, req, res);
     });
 
     router.delete('/:id', function(req, res) {
         var info = modelIDfind(modelname, req.params.id);
-        model.remove(model, info, req, res);
+        maker.remove(model, info, req, res);
     });
     
     return router;
