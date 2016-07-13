@@ -24,6 +24,7 @@ LoginService = function($http, $q, $window, TareasService) {
                     // cierre el navegador (aunque cierre la pestaña se mantiene la info)
 
                     $window.sessionStorage.token = response.data.token;
+                    $window.sessionStorage.isAdmin = response.data.isAdmin;
                     user = null;
                     q.resolve();
                 },
@@ -44,6 +45,7 @@ LoginService = function($http, $q, $window, TareasService) {
         // Eliminamos el token y el usuario
         user = null;
         delete $window.sessionStorage.token;
+        delete $window.sessionStorage.isAdmin;
     }
 
     this.getUser = function() {

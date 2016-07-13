@@ -17,6 +17,7 @@ router.post('/', function(req, res) {
 
 function register(req, res) {
     var user = req.body;
+    user.isAdmin = false;
     
     //Comprovar que ya exista ese email se hara con el unique de mongoose (error.code = 11000)
     //Usuario.findOne({email: user.email}, function(error, usuario) {

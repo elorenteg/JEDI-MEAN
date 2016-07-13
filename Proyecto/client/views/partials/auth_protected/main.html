@@ -1,6 +1,7 @@
 
 <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom md-autoselect flex layout="column" layout-fill>
-    <md-tab ng-repeat="tab in tabs" label="{{tab.title}}" ui-sref="{{tab.nomEstat}}">
+    <md-tab ng-repeat="tab in tabs" label="{{tab.title}}" ui-sref="{{tab.nomEstat}}"
+        ng-hide="">
         <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
             <div ui-view=""></div>
         </div>

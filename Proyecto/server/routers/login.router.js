@@ -16,10 +16,11 @@ router.post('/', function(req, res) {
 });
 
 function authenticate(req, res) {
+    var isAdmin = req.body.email === 'admin@gmail.com';
     var user = {
         email: req.body.email,
         password: req.body.password,
-        isAdmin: (req.body.email === 'admin@gmail.com')
+        isAdmin: isAdmin
     };
     
     Usuario.findOne({email:user.email}, function(error, usuario) {
@@ -29,7 +30,7 @@ function authenticate(req, res) {
                     var token = jwt.sign(user, config.JWT_SECRET, {
                         expiresIn: 24*60*60 // Este token expirará en 24h
                     });
-                    res.status(200).send({ token: token });
+                    res.status(200).send({ token: token, isAdmin: isAdmin });
                 }
                 else res.status(401).send(error);
             })
