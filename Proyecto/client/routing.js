@@ -23,7 +23,8 @@ angular.module('LibrosApp').config(['$stateProvider', '$urlRouterProvider', '$lo
     .state('comprar', {
         parent: 'main',
         templateUrl: 'views/partials/auth_protected/comprar.html',
-        url: '/comprar'
+        url: '/comprar',
+        controller: 'ComprarCtrl'
     })
     .state('pedidos', {
         parent: 'main',

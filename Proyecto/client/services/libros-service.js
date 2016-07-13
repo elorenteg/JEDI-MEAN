@@ -1,6 +1,6 @@
 
 LibrosService = function($http, $q, LoginService) {
-    var SERVER_URL_ALL_LIBRO = "http://localhost:8080/api/admin/libros/"
+    var SERVER_URL_ALL_LIBRO = "http://localhost:8080/api/usuario/libros/"
     var SERVER_URL_ONE_LIBRO = "http://localhost:8080/api/admin/libro/"
     
     var self = this;
