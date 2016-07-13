@@ -33,9 +33,9 @@ router.use('/libro', crudMaker(Libro, 'Libro'));
 router.get('/libros', function(req,res) {
     maker.getAll(Libro, req, res, '');
 });
-router.use('/tienda', crudMaker(Tienda, 'Tienda'));
+router.use('/tienda', crudMaker(Tienda, 'Tienda', 'libros.libro'));
 router.get('/tiendas', function(req,res) {
-    maker.getAll(Tienda, req, res, 'libros');
+    maker.getAll(Tienda, req, res, 'libros.libro');
 });
 router.patch('/tienda/:id/anadirStock', function(req,res) {
     var infoTienda = {sigla: req.params.id};

@@ -14,20 +14,21 @@
         <div class="table-responsive" layout-fill>
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr class="text-left">
                         <th>Nº</th>
                         <th>Título</th>
                         <th>ISBN</th>
+                        <th>Precio</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="libro in libros" >
-                        <td>{{$index+1}}</td>
-                        <td>{{libro.titulo}}</td>
-                        <td>{{libro.isbn}}</td>
-                        <td>{{libro.precio | currency: '€'}}</td>
-                        <td><div ng-click="eliminarLibro($index)" class="btn btn-danger">Borrar</div></td>
+                    <tr ng-repeat="libro in libros" class="text-left">
+                        <td style="width:10%">{{$index+1}}</td>
+                        <td style="width:50%">{{libro.titulo}}</td>
+                        <td style="width:20%">{{libro.isbn}}</td>
+                        <td style="width:10%">{{libro.precio | currency: '€'}}</td>
+                        <td style="width:10px"><div ng-click="eliminarLibro($index)" class="btn btn-danger">Borrar</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -38,7 +39,7 @@
         <div layout="row" layout-fill>
             <h1>Tiendas</h1>
             <span flex></span>
-            <md-button class="md-fab md-primary md-mini" ng-click="mostrarDialogLibro($event)">
+            <md-button class="md-fab md-primary md-mini" ng-click="mostrarDialogTienda($event)">
                 <ng-md-icon icon="add" style="fill:white; vertical-align: middle; display: inline-block; line-height: 1;"></ng-md-icon>
             </md-button>
         </div>
@@ -48,7 +49,7 @@
         <div class="table-responsive" layout-fill>
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr class="text-left">
                         <th>Nº</th>
                         <th>Sigla</th>
                         <th>Dirección</th>
@@ -56,11 +57,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="tienda in tiendas" >
-                        <td>{{$index+1}}</td>
-                        <td>{{tienda.sigla | uppercase}}</td>
-                        <td>{{tienda.direccion}}</td>
-                        <td><div ng-click="eliminarTienda($index)" class="btn btn-danger">Borrar</div></td>
+                    <tr ng-repeat="tienda in tiendas" class="text-left">
+                        <td style="width:10%">{{$index+1}}</td>
+                        <td style="width:15%">{{tienda.sigla | uppercase}}</td>
+                        <td style="width:45%">{{tienda.direccion}}</td>
+                        <td style="width:10px"><div ng-click="eliminarTienda($index)" class="btn btn-danger">Borrar</div></td>
+                        <td style="width:10px"><div ng-click="anadirStock($index)" class="btn btn-primary">Añadir Stock</div></td>
+                        <td style="width:10px"><div ng-click="consultarStock($index)" class="btn btn-primary">Consultar Stock</div></td>
                     </tr>
                 </tbody>
             </table>

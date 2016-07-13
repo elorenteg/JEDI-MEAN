@@ -1,0 +1,8 @@
+ 
+table .text-center > th {
+    text-align: center;
+}
+
+table .text-left {
+    text-align: left;
+}

@@ -1,0 +1,33 @@
+<md-dialog style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 style="color:white">Consultar Stock</h2><span flex="flex"></span>
+            <md-button ng-click="cancel()" class="md-icon-button" style="width: 100px;">
+            <md-icon class="material-icons" style="color:white">Cerrar</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <center><h3 ng-if="mostrarMensajeNoStock()">No hay stock disponible</h3></center>
+        <div class="table-responsive" layout-fill ng-if="!mostrarMensajeNoStock()">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="text-left">
+                        <th>Nº</th>
+                        <th>ISBN</th>
+                        <th>Título</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="info in infoLibros" class="text-left">
+                        <td style="width:10%">{{$index+1}}</td>
+                        <td style="width:25%">{{info.libro.isbn}}</td>
+                        <td style="width:50%">{{info.libro.titulo}}</td>
+                        <td style="width:15%">{{info.stock}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </md-dialog-content>
+</md-dialog>

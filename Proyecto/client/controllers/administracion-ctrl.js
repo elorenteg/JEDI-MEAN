@@ -61,6 +61,52 @@ angular.module('LibrosApp').controller('createTiendaDialogController',
     }
 }]);
 
+angular.module('LibrosApp').controller('createStockDialogController',
+    ['$scope', '$mdDialog', 'libros', 'idTienda', 'LibrosService', 'TiendasService', 'ToastService',
+        function ($scope, $mdDialog, libros, idTienda, LibrosService, TiendasService, ToastService) {
+    $scope.libros = libros;
+    $scope.idTienda = idTienda;
+
+    $scope.cancel = function() {
+        // Cierra el dialog
+        $mdDialog.cancel();
+    }
+
+    $scope.answer = function() {
+        // Usamos tareasService para añadir la tarea (asíncrono)
+        TiendasService.anadirStock($scope.idTienda, {
+            isbn: $scope.libroStock,
+            stock: $scope.stock
+        }).then(
+            function() {
+                ToastService.showToast("Stock añadido correctamente");
+                $mdDialog.hide();
+            },
+            function(err) {
+                ToastService.showToast("Ha ocurrido un error al añadir la tienda. Vuelvelo a intentar");
+                $mdDialog.hide();
+            }
+        );
+    }
+}]);
+
+angular.module('LibrosApp').controller('getStockDialogController',
+    ['$scope', '$mdDialog', 'infoLibros', 'idTienda', 'LibrosService', 'TiendasService', 'ToastService',
+        function ($scope, $mdDialog, infoLibros, idTienda, LibrosService, TiendasService, ToastService) {
+    $scope.infoLibros = infoLibros;
+    $scope.idTienda = idTienda;
+
+    $scope.cancel = function() {
+        // Cierra el dialog
+        $mdDialog.cancel();
+    }
+
+    // Si no hay tareas mostramos un mensaje
+    $scope.mostrarMensajeNoStock = function() {
+        return ($scope.infoLibros == null || $scope.infoLibros.length === 0);
+    }
+}]);
+
 // Este es el del estado de tareas
 var AdministracionCtrl = function($scope, LibrosService, TiendasService, ToastService, $mdDialog) {
     
@@ -136,6 +182,41 @@ var AdministracionCtrl = function($scope, LibrosService, TiendasService, ToastSe
             }, function(err) {
                 ToastService.showToast("Se ha producido un error, intentalo más tarde");
             });
+    }
+
+    $scope.anadirStock = function(id) {
+        $mdDialog.show({
+            controller: 'createStockDialogController',
+            templateUrl: 'views/partials/auth_protected/add-stock.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            locals: {
+                idTienda: id,
+                libros: $scope.libros
+            }
+        });
+    }
+
+    $scope.consultarStock = function(id) {
+        // Usamos tareasService para añadir la tarea (asíncrono)
+        TiendasService.consultarStock(id).then(
+            function(infoLibros) {
+                ToastService.showToast("Consulta de stock realizada correctamente");
+                $mdDialog.show({
+                    controller: 'getStockDialogController',
+                    templateUrl: 'views/partials/auth_protected/get-stock.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    locals: {
+                        idTienda: id,
+                        infoLibros: infoLibros
+                    }
+                });
+            },
+            function(err) {
+                ToastService.showToast("Se ha producido un error, intentalo más tarde");
+            }
+        );
     }
 };
 

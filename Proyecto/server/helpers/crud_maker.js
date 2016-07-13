@@ -4,17 +4,13 @@ var maker = require('./maker');
 module.exports = function(model, modelname, population) {
     var router = express.Router();
 
-    population = population || '';
-
     router.get('/:id', function(req, res) {
         var info = modelIDfind(modelname, req.params.id);
-        console.log(info);
         maker.get(model, info, req, res, population);
     });
 
     router.post('/', function(req, res) {
         var newInfo = req.body;
-        console.log(newInfo);
         maker.insert(model, newInfo, req, res);
     });
 
