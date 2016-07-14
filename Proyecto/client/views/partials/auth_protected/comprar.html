@@ -1,9 +1,9 @@
 <div layout="row" flex>
-    <div layout="column" layout-align="start center" flex style="width:20%; padding-left:20px; padding-right:20px" layout-fill>
+    <div>
         <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')"
-            md-disable-backdrop md-whiteframe="4">
+            md-disable-backdrop md-whiteframe="4" style="width:300px; margin-right:50px;">
             <md-toolbar class="md-theme-primary">
-                <h1 class="md-toolbar-tools">Filtrar</h1>
+                <h1 class="md-toolbar-tools" style="color:white">Filtrar</h1>
             </md-toolbar>
             <md-content layout-padding>
                 <md-input-container class="md-block" flex-gt-sm>
@@ -30,7 +30,7 @@
         </md-sidenav>
     </div>
         
-    <div layout="column" layout-align="start center" flex style="width:60%; padding-left:20px; padding-right:20px" layout-fill>
+    <div flex>
         <div class="table-responsive" layout-fill>
             <table class="table table-striped">
                 <thead>
@@ -48,6 +48,7 @@
                         <td style="width:50%">{{libro.titulo}}</td>
                         <td style="width:20%">{{libro.isbn}}</td>
                         <td style="width:10%">{{libro.precio | currency: '€'}}</td>
+                        <td style="width:10px"><div ng-click="consultarTiendas($index)" class="btn btn-primary">Consultar Tiendas</div></td>
                     </tr>
                 </tbody>
             </table>

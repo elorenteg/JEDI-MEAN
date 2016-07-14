@@ -3,7 +3,7 @@
     <md-tab ng-repeat="tab in tabs" label="{{tab.title}}" ui-sref="{{tab.nomEstat}}"
         ng-hide="">
         <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-            <div ui-view=""></div>
+            <div ui-view="" style="padding-left:5%; padding-right:5%"></div>
         </div>
     </md-tab>
 </md-tabs>

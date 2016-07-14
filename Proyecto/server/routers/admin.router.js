@@ -30,11 +30,7 @@ router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuari
 });
 
 router.use('/libro', crudMaker(Libro, 'Libro'));
-/*
-router.get('/libros', function(req,res) {
-    maker.getAll(Libro, req, res, '');
-});
-*/
+
 router.use('/tienda', crudMaker(Tienda, 'Tienda', 'libros.libro'));
 router.get('/tiendas', function(req,res) {
     maker.getAll(Tienda, req, res, 'libros.libro');
