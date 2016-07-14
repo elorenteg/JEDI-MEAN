@@ -25,6 +25,7 @@ LoginService = function($http, $q, $window, TareasService) {
 
                     $window.sessionStorage.token = response.data.token;
                     $window.sessionStorage.isAdmin = response.data.isAdmin;
+                    $window.sessionStorage.email = response.data.email;
                     user = null;
                     q.resolve();
                 },
@@ -46,6 +47,7 @@ LoginService = function($http, $q, $window, TareasService) {
         user = null;
         delete $window.sessionStorage.token;
         delete $window.sessionStorage.isAdmin;
+        delete $window.sessionStorage.email;
     }
 
     this.getUser = function() {

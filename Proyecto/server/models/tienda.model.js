@@ -9,6 +9,7 @@ module.exports = function() {
         direccion: { type: String },
         libros: [{
             libro: { type: Schema.Types.ObjectId, ref: 'Libro' },
+            tienda: {type: Schema.Types.ObjectId, ref: 'Tienda' },
             stock: { type: Number, default: 0, min: 0 }
         }]
     });

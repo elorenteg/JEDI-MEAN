@@ -17,12 +17,12 @@
                 <div layout="row" flex>
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>EUR</label>
-                        <input name="minPrecio" ng-model="minPrecio">
+                        <input type="number" min="0" name="minPrecio" ng-model="minPrecio">
                     </md-input-container>
                     a
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>EUR</label>
-                        <input name="maxPrecio" ng-model="maxPrecio">
+                        <input type="number" min="0" name="maxPrecio" ng-model="maxPrecio">
                     </md-input-container>
                 </div>
                 <div ng-click="filtrarLibros($index)" class="btn btn-danger">Filtrar</div></td>

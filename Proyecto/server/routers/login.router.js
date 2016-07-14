@@ -30,7 +30,7 @@ function authenticate(req, res) {
                     var token = jwt.sign(user, config.JWT_SECRET, {
                         expiresIn: 24*60*60 // Este token expirará en 24h
                     });
-                    res.status(200).send({ token: token, isAdmin: isAdmin });
+                    res.status(200).send({ token: token, isAdmin: isAdmin, email: req.body.email });
                 }
                 else res.status(401).send(error);
             })

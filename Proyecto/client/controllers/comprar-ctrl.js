@@ -1,10 +1,12 @@
 angular.module('LibrosApp').controller('getTiendasDialogController',
-    ['$scope', '$mdDialog', 'idLibro', 'infoTiendas', 'LibrosService', 'TiendasService', 'ToastService',
-        function ($scope, $mdDialog, idLibro, infoTiendas, LibrosService, TiendasService, ToastService) {
+    ['$scope', '$mdDialog', 'isbnLibro', 'infoTiendas', 'LibrosService', 'TiendasService', 'ComprasService', 'ToastService',
+        function ($scope, $mdDialog, isbnLibro, infoTiendas, LibrosService, TiendasService, ComprasService, ToastService) {
     $scope.infoTiendas = infoTiendas;
-    $scope.idLibro = idLibro;
+    $scope.isbnLibro = isbnLibro;
 
     $scope.cancel = function() {
+        $scope.compraOK = false;
+        $scope.isCompra = false;
         // Cierra el dialog
         $mdDialog.cancel();
     }
@@ -13,12 +15,59 @@ angular.module('LibrosApp').controller('getTiendasDialogController',
     $scope.mostrarMensajeNoTiendas = function() {
         return ($scope.infoTiendas == null || $scope.infoTiendas.length === 0);
     }
+    
+    $scope.isCompra = false;
+    $scope.compraOK = false;
+    $scope.mostrarTiendas = function() {
+        return $scope.isCompra === false;
+    }
+    $scope.compraCorrecta = function() {
+        return $scope.compraOK === true;
+    }
+
+    // Si no hay tareas mostramos un mensaje
+    $scope.comprarLibro = function(idTienda) {
+        $scope.isCompra = true;
+        
+        var siglaTienda = infoTiendas[idTienda].sigla;
+        ComprasService.comprarLibro({
+            siglaTienda: siglaTienda,
+            isbnLibro: isbnLibro
+        }).then(
+            function(compras) {
+                ToastService.showToast("Compra realizada correctamente");
+                $scope.infoTiendas = decreaseStock($scope.infoTiendas, siglaTienda);
+                $scope.compraOK = true;
+                //$mdDialog.hide();
+            },
+            function(err) {
+                ToastService.showToast("Se ha producido un error, intentalo más tarde");
+                $scope.compraOK = false;
+                //$mdDialog.hide();
+            }
+        );
+    }
+    
+    $scope.hasStock = function(id) {
+        return (infoTiendas[i].stock > 0);
+    }
+    
 }]);
 
-var ComprarCtrl = function($scope, LibrosService, TiendasService, ToastService, $mdDialog) {
+function decreaseStock(infoTiendas, siglaTienda) {
+    for(i = 0; i < infoTiendas.length; ++i) {
+        if (infoTiendas[i].sigla === siglaTienda) infoTiendas[i].stock--;
+    }
+    
+    return infoTiendas;
+}
+
+
+var ComprarCtrl = function($scope, $window, LibrosService, TiendasService, ComprasService, ToastService, $mdDialog) {
     
     $scope.libros = [];
     $scope.librosFiltrados = [];
+    $scope.compras = [];
 
     // Usamos TareasService (definido por nosotros) para obtener las tareas
     // Notad que es asíncrono, por eso usamos la promise
@@ -27,6 +76,12 @@ var ComprarCtrl = function($scope, LibrosService, TiendasService, ToastService, 
         $scope.librosFiltrados = libros;
     }, function(err) {
         ToastService.showToast("Se ha producido un error al cargar los libros");
+    });
+    
+    ComprasService.getCompras($window.sessionStorage.email).then(function(compras) {
+        $scope.compras = compras;
+    }, function(err) {
+        ToastService.showToast("Se ha producido un error al cargar las compras");
     });
 
     // Si no hay tareas mostramos un mensaje
@@ -48,7 +103,6 @@ var ComprarCtrl = function($scope, LibrosService, TiendasService, ToastService, 
     }
     
     $scope.consultarTiendas = function(id) {
-        console.log("Entro");
         LibrosService.consultarTiendas(id).then(
             function(infoTiendas) {
                 ToastService.showToast("Consulta de tiendas realizada correctamente");
@@ -58,7 +112,7 @@ var ComprarCtrl = function($scope, LibrosService, TiendasService, ToastService, 
                     parent: angular.element(document.body),
                     targetEvent: event,
                     locals: {
-                        idLibro: id,
+                        isbnLibro: $scope.librosFiltrados[id].isbn,
                         infoTiendas: infoTiendas
                     }
                 });
@@ -75,4 +129,4 @@ function validFilter(value) {
     return true;
 }
 
-angular.module('LibrosApp').controller('ComprarCtrl', ['$scope', 'LibrosService', 'TiendasService', 'ToastService', '$mdDialog', ComprarCtrl]);
+angular.module('LibrosApp').controller('ComprarCtrl', ['$scope', '$window', 'LibrosService', 'TiendasService', 'ComprasService', 'ToastService', '$mdDialog', ComprarCtrl]);

@@ -6,7 +6,11 @@ module.exports = function() {
     var usuarioSchema = new Schema({
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        librosComprados: [{ type: Schema.Types.ObjectId, ref: 'Libro' }],
+        librosComprados: [{
+            libro: { type: Schema.Types.ObjectId, ref: 'Libro' },
+            tienda: { type: Schema.Types.ObjectId, ref: 'Tienda' },
+            fecha: { type: Date, required: true }
+        }],
         isAdmin: { type: Boolean, deafult: false }
     });
     

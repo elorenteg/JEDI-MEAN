@@ -24,7 +24,7 @@
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Stock*</label>
-                    <input required name="stock" ng-model="stock">
+                    <input type="number"  min="1" required name="stock" ng-model="stock">
                     <div ng-messages="tiendaForm.stock.$error" ng-if="tiendaForm.stock.$dirty && tiendaForm.stock.$invalid">
                         <div ng-message="required">Rellena el campo</div>
                     </div>

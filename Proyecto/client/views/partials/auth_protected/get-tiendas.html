@@ -7,7 +7,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content>
+    <md-dialog-content ng-if="mostrarTiendas()">
         <center><h3 ng-if="mostrarMensajeNoTiendas()">No hay ninguna tienda que lo venda</h3></center>
         <div class="table-responsive" layout-fill ng-if="!mostrarMensajeNoTiendas()">
             <table class="table table-striped">
@@ -27,10 +27,14 @@
                         <td style="width:25%">{{info.nombre}}</td>
                         <td style="width:40%">{{info.direccion}}</td>
                         <td style="width:10%">{{info.stock}}</td>
-                        <td style="width:10px"><div ng-click="comprarLibro($index)" class="btn btn-primary">Comprar</div></td>
+                        <td style="width:10px"><md-button ng-click="comprarLibro($index)" ng-disabled="hasStock($index)" class="md-raised md-primary">Comprar</md-button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+    </md-dialog-content>
+    <md-dialog-content ng-if="!mostrarTiendas()">
+        <center><h3 ng-if="compraCorrecta()">Compra realizada correctamente</h3></center>
+        <center><h3 ng-if="!compraCorrecta()">Ha habido un problema. Vuelvalo a intentar más tarde</h3></center>
     </md-dialog-content>
 </md-dialog>

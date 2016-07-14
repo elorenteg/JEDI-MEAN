@@ -1,1 +1,20 @@
-Pedidos
+<div class="table-responsive" layout-fill>
+    <table class="table table-striped">
+        <thead>
+            <tr class="text-left">
+                <th>Nº</th>
+                <th>Fecha</th>
+                <th>Libro</th>
+                <th>Tienda</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="compra in compras track by $index" class="text-left">
+                <td style="width:10%">{{$index+1}}</td>
+                <td style="width:20%">{{compra.fecha | date:"MM/dd/yyyy 'at' HH:mm:ss"}}</td>
+                <td style="width:35%">{{compra.libro.isbn + "-" + compra.libro.titulo}}</td>
+                <td style="width:35%">{{compra.tienda.sigla + "-" + compra.tienda.nombre}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

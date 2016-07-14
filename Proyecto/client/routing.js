@@ -29,7 +29,8 @@ angular.module('LibrosApp').config(['$stateProvider', '$urlRouterProvider', '$lo
     .state('pedidos', {
         parent: 'main',
         templateUrl: 'views/partials/auth_protected/pedidos.html',
-        url: '/pedidos'
+        url: '/pedidos',
+        controller: 'PedidosCtrl'
     })
     .state('administracion', {
         parent: 'main',
