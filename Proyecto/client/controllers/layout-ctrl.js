@@ -1,7 +1,7 @@
 var LayoutCtrl = function($scope, $state, LoginService, LibrosService, TiendasService) {
     $scope.pageName = function() {
         if ($state.includes('login')) return "Login";
-        else return "Listado de Libros";
+        else return "Venta de Libros";
     };
 
     $scope.logout = function() {

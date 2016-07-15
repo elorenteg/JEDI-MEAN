@@ -29,7 +29,7 @@
             <div layout-gt-xs="row">
                 <md-input-container flex-gt-sm>
                     <label>Dirección</label>
-                    <input required="required" name="direccion" ng-model="direccion">
+                    <input name="direccion" ng-model="direccion">
                     <div ng-messages="tiendaForm.direccion.$error" ng-if="tiendaForm.direccion.$dirty && tiendaForm.direccion.$invalid">
                         <div ng-message="required">Rellena el campo</div>
                     </div>

@@ -28,7 +28,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container flex-gt-sm>
-                    <label>Precio</label>
+                    <label>Precio*</label>
                     <input type="number" min="0" required="required" name="precio" ng-model="precio">
                     <div ng-messages="libroForm.precio.$error" ng-if="libroForm.precio.$dirty && libroForm.precio.$invalid">
                         <div ng-message="required">Rellena el campo</div>
@@ -39,7 +39,7 @@
             <div layout-gt-xs="row">
                 <md-input-container flex-gt-sm>
                     <label>Descripción</label>
-                    <input required="required" name="descripcion" ng-model="descripcion">
+                    <input name="descripcion" ng-model="descripcion">
                     <div ng-messages="libroForm.descripcion.$error" ng-if="libroForm.descripcion.$dirty && libroForm.descripcion.$invalid">
                         <div ng-message="required">Rellena el campo</div>
                     </div>
