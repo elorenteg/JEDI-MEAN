@@ -1,6 +1,23 @@
 // Este es el del estado de tareas
-var MainCtrl = function($scope, $window, ToastService, $mdDialog, $state) {
-    $scope.tabs = mainTabs($window.sessionStorage.isAdmin);
+var MainCtrl = function($scope, $window, LoginService, ToastService, $mdDialog, $state) {
+    $scope.tabs = [
+                { title: 'Comprar', nomEstat: 'comprar' },
+                { title: 'Pedidos', nomEstat: 'pedidos' }
+            ];
+    
+    LoginService.getUser()
+        .then(function(usuario) {
+            var tabs = [
+                { title: 'Comprar', nomEstat: 'comprar' },
+                { title: 'Pedidos', nomEstat: 'pedidos' },
+                { title: 'Administración', nomEstat: 'administracion' }
+            ];
+            if (usuario.isAdmin === false) tabs.splice(tabs.length-1, 1);
+            
+            $scope.tabs = tabs;
+            
+        }, function(err) {
+        });
     
     $scope.selectedIndex = indexSelected($scope.tabs, $state.current);
 };
@@ -10,17 +27,5 @@ function indexSelected(tabs, estat) {
     return index;
 }
 
-function mainTabs(isAdmin) {
-    var tabs = [
-        { title: 'Comprar', nomEstat: 'comprar' },
-        { title: 'Pedidos', nomEstat: 'pedidos' },
-        { title: 'Administración', nomEstat: 'administracion' }
-    ];
-    
-    if (isAdmin === 'false') tabs.splice(tabs.length-1, 1);
-    
-    return tabs;
-}
 
-
-angular.module('LibrosApp').controller('MainCtrl', ['$scope', '$window', 'ToastService', '$mdDialog', '$state', MainCtrl]);
+angular.module('LibrosApp').controller('MainCtrl', ['$scope', '$window', 'LoginService', 'ToastService', '$mdDialog', '$state', MainCtrl]);

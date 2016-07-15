@@ -26,7 +26,7 @@ mongoose.connection.once('open', function() {
 
 router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuario'}), function(req, res, next) {
     if (req.usuario && req.usuario.isAdmin) next();
-    else res.status(404).send({});
+    else res.status(401).send({});
 });
 
 router.use('/libro', crudMaker(Libro, 'Libro'));

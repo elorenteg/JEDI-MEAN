@@ -8,6 +8,7 @@
 LoginService = function($http, $q, $window, TareasService) {
     var SERVER_URL_AUTH = "http://localhost:8080/api/login";
     var SERVER_URL_USERS = "http://localhost:8080/api/registro";
+    var SERVER_URL_USER_INFO = "http://localhost:8080/api/usuario/info";
 
     var user = null;
 
@@ -24,8 +25,6 @@ LoginService = function($http, $q, $window, TareasService) {
                     // cierre el navegador (aunque cierre la pestaña se mantiene la info)
 
                     $window.sessionStorage.token = response.data.token;
-                    $window.sessionStorage.isAdmin = response.data.isAdmin;
-                    $window.sessionStorage.email = response.data.email;
                     user = null;
                     q.resolve();
                 },
@@ -46,8 +45,6 @@ LoginService = function($http, $q, $window, TareasService) {
         // Eliminamos el token y el usuario
         user = null;
         delete $window.sessionStorage.token;
-        delete $window.sessionStorage.isAdmin;
-        delete $window.sessionStorage.email;
     }
 
     this.getUser = function() {
@@ -69,7 +66,7 @@ LoginService = function($http, $q, $window, TareasService) {
         var q = $q.defer();
 
         // Obtiene el usuario del servidor
-        $http.get(SERVER_URL_USERS)
+        $http.get(SERVER_URL_USER_INFO)
             .then(
                 function(response) {
                     // Y asignamos la variable local user a los datos obtenidos

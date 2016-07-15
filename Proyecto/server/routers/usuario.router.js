@@ -24,6 +24,10 @@ router.get('/libros', function(req,res) {
     maker.getAll(Libro, req, res, '');
 });
 
+router.get('/info', function(req,res) {
+    res.status(200).send(req.usuario);
+});
+
 router.get('/libro/:isbn/tiendas', function(req,res) {
     Libro.findOne({isbn: req.params.isbn}, function(error, libro) {
         if (!error && libro) {
