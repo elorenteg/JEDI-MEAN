@@ -1,9 +1,11 @@
 // Este es el del estado de tareas
 var MainCtrl = function($scope, $window, LoginService, ToastService, $mdDialog, $state) {
     $scope.tabs = [
-                { title: 'Comprar', nomEstat: 'comprar' },
-                { title: 'Pedidos', nomEstat: 'pedidos' }
-            ];
+        { title: 'Comprar', nomEstat: 'comprar' },
+        { title: 'Pedidos', nomEstat: 'pedidos' }
+    ];
+            
+    $scope.selectedIndex = indexSelected($scope.tabs, $state.current);
     
     LoginService.getUser()
         .then(function(usuario) {
@@ -15,11 +17,11 @@ var MainCtrl = function($scope, $window, LoginService, ToastService, $mdDialog, 
             if (usuario.isAdmin === false) tabs.splice(tabs.length-1, 1);
             
             $scope.tabs = tabs;
+            $state.go('comprar');
+            $scope.selectedIndex = indexSelected($scope.tabs, $state.current);
             
         }, function(err) {
         });
-    
-    $scope.selectedIndex = indexSelected($scope.tabs, $state.current);
 };
 
 function indexSelected(tabs, estat) {
