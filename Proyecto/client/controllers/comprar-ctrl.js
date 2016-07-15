@@ -49,7 +49,7 @@ angular.module('LibrosApp').controller('getTiendasDialogController',
     }
     
     $scope.hasStock = function(id) {
-        return (infoTiendas[i].stock > 0);
+        return (infoTiendas[id].stock === 0);
     }
     
 }]);
@@ -72,13 +72,14 @@ var ComprarCtrl = function($scope, $window, LibrosService, TiendasService, Compr
     // Usamos TareasService (definido por nosotros) para obtener las tareas
     // Notad que es asíncrono, por eso usamos la promise
     LibrosService.getLibros().then(function(libros) {
+        console.log("get libros");
         $scope.libros = libros;
         $scope.librosFiltrados = libros;
     }, function(err) {
         ToastService.showToast("Se ha producido un error al cargar los libros");
     });
     
-    ComprasService.getCompras($window.sessionStorage.email).then(function(compras) {
+    ComprasService.getCompras().then(function(compras) {
         $scope.compras = compras;
     }, function(err) {
         ToastService.showToast("Se ha producido un error al cargar las compras");

@@ -4,7 +4,7 @@ var PedidosCtrl = function($scope, $window, ComprasService, ToastService, $mdDia
 
     // Usamos TareasService (definido por nosotros) para obtener las tareas
     // Notad que es asíncrono, por eso usamos la promise
-    ComprasService.getCompras($window.sessionStorage.email).then(function(compras) {
+    ComprasService.getCompras().then(function(compras) {
         $scope.compras = compras;
     }, function(err) {
         ToastService.showToast("Se ha producido un error al cargar los libros");

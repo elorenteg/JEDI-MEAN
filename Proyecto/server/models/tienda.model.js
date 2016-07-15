@@ -5,7 +5,7 @@ module.exports = function() {
 
     var tiendaSchema = new Schema({
         nombre: { type: String },
-        sigla: { type: String, required: true },
+        sigla: { type: String, required: true, unique: true },
         direccion: { type: String },
         libros: [{
             libro: { type: Schema.Types.ObjectId, ref: 'Libro' },

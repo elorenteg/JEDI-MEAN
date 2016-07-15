@@ -11,11 +11,11 @@ ComprasService = function($http, $q, $window, LoginService) {
         compras = null;
     };
 
-    this.getCompras = function(email) {
+    this.getCompras = function() {
         var q = $q.defer();
 
         // Obtiene el usuario del servidor
-        $http.get(SERVER_URL_COMPRAS + email, {})
+        $http.get(SERVER_URL_COMPRAS, {})
             .then(
                 function(response) {
                     // Y asignamos la variable local user a los datos obtenidos
@@ -33,7 +33,7 @@ ComprasService = function($http, $q, $window, LoginService) {
     this.comprarLibro = function(info) {
         var q = $q.defer();
         
-        $http.patch(SERVER_URL_COMPRAR + $window.sessionStorage.email + '/tienda/' + info.siglaTienda + '/libro/' + info.isbnLibro)
+        $http.patch(SERVER_URL_COMPRAR + 'tienda/' + info.siglaTienda + '/libro/' + info.isbnLibro)
             .then(
                 function(response) {
                     compras.push(response.data);

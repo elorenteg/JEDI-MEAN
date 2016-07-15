@@ -6,7 +6,7 @@ var _ = require('lodash/core');
 
 module.exports = router;
 
-var jwt_secret = require('../config').jwt_secret;
+var config = require('../config');
 var express_jwt = require('express-jwt');
 var bcrypt = require('bcrypt');
 
@@ -14,6 +14,11 @@ var maker = require('../helpers/maker');
 var Libro = mongoose.model('Libro');
 var Tienda = mongoose.model('Tienda');
 var Usuario = mongoose.model('Usuario');
+
+router.use('/', express_jwt({secret: config.JWT_SECRET, requestProperty: 'usuario'}), function(req, res, next) {
+    if (req.usuario) next();
+    else res.status(404).send({});
+});
 
 router.get('/libros', function(req,res) {
     maker.getAll(Libro, req, res, '');
@@ -42,28 +47,36 @@ router.get('/libro/:isbn/tiendas', function(req,res) {
     });
 });
 
-router.get('/compras/:email', function(req,res) {
-    Usuario.findOne({email: req.params.email}, function(error, usuario) {
+router.get('/compras', function(req,res) {
+    console.log(req.usuario.email);
+    Usuario.findOne({email: req.usuario.email}, function(error, usuario) {
         if (!error && usuario) res.status(200).send(usuario.librosComprados);
         else res.status(404).send(error);
     }).populate('librosComprados.libro').populate('librosComprados.tienda');
 });
 
-router.patch('/comprar/:email/tienda/:sigla/libro/:isbn', function(req,res) {
+router.patch('/comprar/tienda/:sigla/libro/:isbn', function(req,res) {
     console.log("Entro");
     Libro.findOne({isbn: req.params.isbn}, function(error, libro) {
         if (!error && libro) {
             Tienda.findOne({sigla: req.params.sigla}, function(error, tienda) {
                 if (!error && tienda) {
-                    Usuario.findOne({email: req.params.email}, function(error, usuario) {
+                    Usuario.findOne({email: req.usuario.email}, function(error, usuario) {
                         if (!error && usuario) {
                             var compra = {libro: libro._id, tienda: tienda._id, fecha: Date.now()};
                             var compras = usuario.librosComprados;
                             compras.push(compra);
-                            Usuario.findOneAndUpdate({email: req.params.email}, {librosComprados:compras}, {new:true}, function(error, usuario) {
+                            Usuario.findOneAndUpdate({email: req.usuario.email}, {librosComprados:compras}, {new:true}, function(error, usuario) {
+                                console.log("Puedo --stock");
                                 if (!error && usuario) {
-                                    Libro.findOneAndUpdate({isbn: req.params.isbn}, {stock: libro.stock-1}, {new:true}, function(error, libro) {
+                                    var actLibros = tienda.libros;
+                                    for(i = 0; i < actLibros.length; ++i) {
+                                        if (actLibros[i].libro.equals(libro._id)) actLibros[i].stock--;
+                                    }
+                                    
+                                    Tienda.findOneAndUpdate({sigla: req.params.sigla}, {libros: actLibros}, {new:true}, function(error, libro) {
                                         if (!error && libro) {
+                                            console.log("--stock");
                                             var result = {
                                                 libro: {isbn: libro.isbn, titulo: libro.titulo},
                                                 tienda: {sigla: tienda.sigla, nombre: tienda.nombre},

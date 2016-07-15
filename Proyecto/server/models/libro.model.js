@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 module.exports = function() {
 
     var libroSchema = new Schema({
-        titulo: { type: String, required: true },
+        titulo: { type: String, required: true, unique: true },
         editorial: { type: String },
         isbn: { type: String, required: true },
         descripcion: { type: String },
